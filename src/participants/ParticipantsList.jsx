@@ -27,6 +27,16 @@ const ParticipantsList = () => {
         
         fetchParticipants(eventId);
     }, [eventId, fetchParticipants]);
+
+    const handleDeleteParticipant = async (id) => {
+        try {
+          window.confirm("Are you sure you want to delete this participant?")
+            await deleteParticipant(id);
+        } catch (error) {
+            console.error("Error deleting participant:", error);
+            toast.error("Failed to delete participant.");
+        }
+    }
     
     // const filteredParticipants = participants.filter(participant =>
     //     participant.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,7 +59,6 @@ const ParticipantsList = () => {
                 added_at: '',
                 added_by: '',
             });
-            toast.success("Participant added successfully!");
         } catch (error) {
             console.error("Error adding participant:", error);
         }
@@ -109,7 +118,7 @@ const ParticipantsList = () => {
                     <div className="col-span-2 text-sm">{participant.added_by}</div>
                     <div className="col-span-2 flex justify-end">
                       <button
-                        onClick={() => deleteParticipant(participant.id)}
+                        onClick={() => handleDeleteParticipant(participant.id)}
                         className="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         title="Delete"
                       >
