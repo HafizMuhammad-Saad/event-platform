@@ -13,32 +13,39 @@ function Signup() {
   const [successMsg, setSuccessMsg] = useState('');
   const [role, setRole] = useState('customer'); // Default role
   const [error, setError] = useState(null);
-  const { signUp, loading } = useAuth();
+  const { signUp} = useAuth();
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    const user = await signUp(firstName, lastName, email, password, role);
-
-     if (!user) {
-setError('Signup failed');
-    return;      }
-    // setSuccessMsg('Account created successfully! Please check your email for confirmation.');
-    await supabase
-  .from('profiles2')
-  .upsert([
-    {
-      id: user.id,
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      role: role,
-    }
-  ], { onConflict: ['id'] });
+    try {
+      setLoading(true)
+      setError(null);
+      const user = await signUp(firstName, lastName, email, password, role);
   
-  setSuccessMsg('Account created successfully! Please check your email for confirmation.');
-setTimeout(() => navigate('/login'), 4000);
+       if (!user) {
+  setError('Signup failed');
+      return;      }
+      // setSuccessMsg('Account created successfully! Please check your email for confirmation.');
+      await supabase
+    .from('profiles2')
+    .upsert([
+      {
+        id: user.id,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        role: role,
+      }
+    ], { onConflict: ['id'] });
+    
+    setSuccessMsg('Account created successfully! Please check your email for confirmation.');
+  setTimeout(() => navigate('/login'), 4000);
+    } catch (error) {
+     console.log(error);
+      
+    }
     
   };
 
