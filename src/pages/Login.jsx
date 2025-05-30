@@ -32,8 +32,8 @@ function Login() {
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-0 left-0 right-0 p-8 text-white bg-gradient-to-t from-black/80 to-transparent">
-          <h2 className="text-3xl font-bold mb-2">Welcome to FinFlow</h2>
-          <p className="opacity-90">Manage your finances with ease and security</p>
+          <h2 className="text-3xl font-bold mb-2">Welcome to EventNest</h2>
+          <p className="opacity-90">Manage your Events with ease and security</p>
         </div>
       </div>
 
