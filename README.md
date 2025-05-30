@@ -110,7 +110,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-Your Name - [@Muhammad Saad](https://www.linkedin.com/in/hafiz-muhammad-saad-a959272b6/) - muhammadsaad1492@gmail.com
+Contact - [@Muhammad Saad](https://www.linkedin.com/in/hafiz-muhammad-saad-a959272b6/) - muhammadsaad1492@gmail.com
 
 Project Link: [https://github.com/HafizMuhammad-Saad/event-platform](https://github.com/yourusername/event-platform)
 
