@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { supabase } from '../services/supabase';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useEventStore } from '../stores/useEventStore';
 
 const EventsManagementTable = () => {
+
+  const { deleteEvent } = useEventStore();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortConfig, setSortConfig] = useState({ key: 'date_time', direction: 'asc' });
@@ -60,15 +64,26 @@ const EventsManagementTable = () => {
   });
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this event?')) return;
-    
+
+const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  });
+  if (!result.isConfirmed) return;
+  else {
     try {
-      const { error } = await supabase.from('events').delete().eq('id', id);
-      if (error) throw error;
-      setEvents(events.filter(event => event.id !== id));
+      await deleteEvent(id);
+      Swal.fire('Deleted!', 'Your event has been deleted.', 'success');
     } catch (error) {
       console.error('Error deleting event:', error);
     }
+
+  }    
   };
 
   const statusBadge = (status) => {
@@ -203,8 +218,8 @@ const EventsManagementTable = () => {
           <tbody>
             {sortedEvents.length > 0 ? (
               sortedEvents.map((event) => (
-                <tr key={event.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer" onClick={() => navigate(`/events/${event.id}`)}>
-                  <td>
+                <tr key={event.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
+                  <td onClick={() => navigate(`/events/${event.id}`)}>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
                         <div className="mask mask-squircle w-12 h-12">

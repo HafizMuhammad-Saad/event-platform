@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import Swal from 'sweetalert2';
+
 import { useAuth } from "../hooks/useAuth";
 import { useEvents } from "../hooks/useEvent";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +24,16 @@ export const EventsList = ({ isAdmin = false }) => {
     }, [user, isAdmin]);
 
     const handleDelete = async (eventId) => {
-        if (window.confirm("Are you sure you want to delete this event?")) {
+        const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  });
+        if (result.isConfirmed) {
             try {
                 await deleteEvent(eventId);
                 toast.success("Event deleted successfully");
